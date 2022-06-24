@@ -1,0 +1,97 @@
+메인화면     state   number=1   
+
+화면1                                                     
+화면2
+화면3
+화면4
+
+App
+                                    CounterContainer                         리덕스 / mobx / vuex(vue.js)
+                 Counter
+                                    SampleContainer    
+                  Sample
+                                    connect()
+ store.subscribe(  )
+
+                                    서버와통신
+                                    xxx.do 요청
+                                     Saga  미들웨어  thunk
+
+                          Action 객체를 Dispatch
+                                 increaseAsync
+View Component    ------------------------>  Saga  ---->  서버와 비동기 통신 
+                                                             thunk함수
+                              --------------------------> Redux
+                                                                 Store (견적정보) 
+                                                                    dispatch
+                                                                    reducer
+                                                                    State  -  counter
+                                                                                post
+                                                                                user
+                                                                             
+
+Saga  ---- generator 함수로 구현
+
+
+INCREASE_ASYNC                                                                          INCREASE_ASYNC    --->   INCREASE
+DECREASE_ASYNC                                                                          DECREASE_ASYNC   --->    DECREASE
+dispatch(액션) ----------------------------> 미들웨어 (loggingMiddleware),  sagaMiddleware
+                              Reducer 함수  ---------- --> Redux State
+
+function* increaseSaga() {
+  yield delay(1000); // 1초를 기다립니다.
+  yield put(increase()); // 특정 액션을 디스패치 합니다.
+  const number = yield select(state => state.counter);
+  console.log(`현재 값은 ${number}입니다.`);
+}
+
+const generater = increaseSaga() ;
+let object = generater.next();
+if(object.done false) object = generater.next();
+if(object.done false) object = generater.next();
+if(object.done false) object = generater.next(objext.value);
+
+     getPost(1)                                                                                    getPostSaga ---> put(startLoading(GET_POST))
+     getUsers()                                                                                    getUsersSaga ---> put(startLoading(GET_USERS)) 
+dispatch(getUsers() ) ----------------------------> 미들웨어 (loggingMiddleware),  sagaMiddleware
+
+                              Reducer 함수  ---------- --> Redux State   ( counter, sample, loading)
+
+                                                                  Redux
+    Sample    -------->  SampleContainer ------->  store 상태, dipatch
+                                  connect(?,?) ------------->
+state
+ 1. counter    숫자  0
+ 2. sample 
+    {
+      post: null,
+      users: null,
+      error : null
+   };
+ 3. loading
+    {
+       'sample/GET_POST': true,
+       'sample/GET_USERS' : false
+    } 
+
+ dispacth(getPost(1))  ------------> sa
+
+
+
+SAGA ---------------- Middleware
+
+                             dispatch(action)           loggerMiddleware               Redux
+                                                            sagaMiddleware  ---> 서버와 비동기통신
+                                                            action payload에 결과저장하고 리덕스로 디스페치
+                                                            Saga 함수를  sagaMiddleware 
+ViewComponent  ---------------------------->  Middleware ---------------->  Store Reducer함수(state, action);
+견적조회화면    
+                   action
+                   payload  조회조건
+
+
+getPostSaga
+1. startLoading(GET_POST));
+2. const post = yield call(api.getPost, action.payload);
+3. 
+
